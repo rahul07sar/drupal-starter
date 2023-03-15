@@ -1,0 +1,79 @@
+label: ميديا
+description: 'Buscar y administrar medios.'
+display:
+  default:
+    display_title: الافتراضي
+    display_options:
+      title: ميديا
+      fields:
+        media_bulk_form:
+          action_title: إجراء
+        thumbnail__target_id:
+          label: 'النسخة المصغرة'
+          separator: ', '
+        name:
+          label: 'Nombre del elemento multimedia'
+          separator: ', '
+        bundle:
+          label: النوع
+          separator: ', '
+        uid:
+          label: المؤلف
+          separator: ', '
+        status:
+          label: الحالة
+          settings:
+            format_custom_false: 'غير منشور'
+            format_custom_true: منشور
+          separator: ', '
+        changed:
+          label: التحديث
+          separator: ', '
+        operations:
+          label: عمليات
+      pager:
+        options:
+          tags:
+            next: 'التالي ›'
+            previous: '‹ السابق'
+            first: '« Primero'
+            last: 'Último »'
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- الكل -'
+            offset_label: الإزاحة
+      exposed_form:
+        options:
+          submit_button: انتقاء
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      empty:
+        area_text_custom:
+          content: 'No hay medios disponibles.'
+      filters:
+        name:
+          expose:
+            label: 'Nombre del elemento multimedia'
+        bundle:
+          expose:
+            label: النوع
+        status:
+          expose:
+            label: صحيح
+          group_info:
+            label: 'Estado de publicación'
+            group_items:
+              1:
+                title: منشور
+              2:
+                title: 'غير منشور'
+        langcode:
+          expose:
+            label: اللغة
+  media_page_list:
+    display_title: ميديا
+    display_options:
+      menu:
+        title: ميديا

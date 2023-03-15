@@ -1,0 +1,48 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: تطبيق
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      pager:
+        options:
+          tags:
+            previous: ‹‹
+            next: ››
+            first: '« Primero'
+            last: 'Último »'
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- الكل -'
+            offset_label: الإزاحة
+      fields:
+        og_membership_bulk_form:
+          label: 'Actualización masiva'
+          action_title: إجراء
+        name:
+          label: الاسم
+          separator: ', '
+        created:
+          separator: ', '
+        state:
+          label: Estado
+          separator: ', '
+        roles_target_id:
+          label: الأدوار
+          separator: ', '
+        operations:
+          label: 'Enlaces de operación'
+      empty:
+        area_text_custom:
+          admin_label: 'Texto de «no hay resultados»'
+      arguments:
+        entity_type:
+          exception:
+            title: الكل
+        entity_id:
+          exception:
+            title: الكل

@@ -1,0 +1,120 @@
+label: 'Biblioteca de medios'
+description: 'Buscar y administrar medios.'
+display:
+  default:
+    display_title: الافتراضي
+    display_options:
+      title: ميديا
+      fields:
+        media_bulk_form:
+          action_title: إجراء
+      pager:
+        options:
+          tags:
+            next: ››
+            previous: ‹‹
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- الكل -'
+            offset_label: الإزاحة
+      exposed_form:
+        options:
+          submit_button: 'عمل تصفية'
+          reset_button_label: 'إعادة الضبط'
+          exposed_sorts_label: 'الترتيب حسب'
+          sort_asc_label: تصاعدي
+          sort_desc_label: تنازلي
+      empty:
+        area_text_custom:
+          content: 'No hay medios disponibles.'
+      sorts:
+        created:
+          expose:
+            label: 'Más recientes primero'
+        name:
+          expose:
+            label: 'Nombre (A-Z)'
+        name_1:
+          expose:
+            label: 'Nombre (Z-A)'
+      filters:
+        status:
+          expose:
+            label: 'Estado de publicación'
+          group_info:
+            label: منشور
+            group_items:
+              1:
+                title: منشور
+              2:
+                title: 'غير منشور'
+        name:
+          expose:
+            label: الاسم
+        bundle:
+          expose:
+            label: 'Tipos multimedia'
+          group_info:
+            label: 'Tipos multimedia'
+        langcode:
+          expose:
+            label: اللغة
+  page:
+    display_title: الصفحة
+    display_options:
+      fields:
+        media_bulk_form:
+          action_title: إجراء
+        name:
+          separator: ', '
+        edit_media:
+          alter:
+            text: 'Editar {{ nombre }}'
+            alt: 'Editar {{ nombre }}'
+          text: تحرير
+        delete_media:
+          alter:
+            text: 'Borrar {{ nombre }}'
+            alt: 'Borrar {{ nombre }}'
+          text: حذف
+  widget:
+    display_title: ودجة
+    display_options:
+      arguments:
+        bundle:
+          exception:
+            title: الكل
+      filters:
+        name:
+          expose:
+            label: الاسم
+      header:
+        display_link_grid:
+          label: شبكة
+        display_link_table:
+          label: جدول
+  widget_table:
+    display_title: 'Widget (tabla)'
+    display_options:
+      fields:
+        thumbnail__target_id:
+          label: 'النسخة المصغرة'
+        name:
+          label: الاسم
+        uid:
+          label: المؤلف
+        changed:
+          label: التحديث
+      arguments:
+        bundle:
+          exception:
+            title: الكل
+      filters:
+        name:
+          expose:
+            label: الاسم
+      header:
+        display_link_grid:
+          label: شبكة
+        display_link_table:
+          label: جدول

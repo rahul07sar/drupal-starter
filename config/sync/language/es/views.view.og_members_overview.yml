@@ -1,0 +1,48 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Aplicar
+          reset_button_label: Restablecer
+          exposed_sorts_label: 'Ordenar por'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: ‹‹
+            next: ››
+            first: '« Primero'
+            last: 'Último »'
+          expose:
+            items_per_page_label: 'Elementos por página'
+            items_per_page_options_all_label: '- Todo -'
+            offset_label: Desplazamiento
+      fields:
+        og_membership_bulk_form:
+          label: 'Actualización masiva'
+          action_title: Acción
+        name:
+          label: Nombre
+          separator: ', '
+        created:
+          separator: ', '
+        state:
+          label: Estado
+          separator: ', '
+        roles_target_id:
+          label: Roles
+          separator: ', '
+        operations:
+          label: 'Enlaces de operación'
+      empty:
+        area_text_custom:
+          admin_label: 'Texto de «no hay resultados»'
+      arguments:
+        entity_type:
+          exception:
+            title: Todo(s)
+        entity_id:
+          exception:
+            title: Todo(s)
