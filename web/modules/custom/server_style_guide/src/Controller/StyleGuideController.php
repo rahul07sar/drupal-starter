@@ -5,6 +5,7 @@ namespace Drupal\server_style_guide\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGenerator;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\media\IFrameUrlHelper;
 use Drupal\node\Entity\Node;
 use Drupal\pluggable_entity_view_builder\BuildFieldTrait;
@@ -17,6 +18,7 @@ use Drupal\server_general\ElementMediaTrait;
 use Drupal\server_general\SocialShareTrait;
 use Drupal\server_general\TagTrait;
 use Drupal\server_general\TitleAndLabelsTrait;
+use Drupal\server_general\LineSeparatorTrait;
 use Drupal\server_style_guide\StyleGuideElementWrapTrait;
 use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -37,6 +39,7 @@ class StyleGuideController extends ControllerBase {
   use StyleGuideElementWrapTrait;
   use TagTrait;
   use TitleAndLabelsTrait;
+  use LineSeparatorTrait;
 
   /**
    * The link generator service.
@@ -53,11 +56,19 @@ class StyleGuideController extends ControllerBase {
   protected $iFrameUrlHelper;
 
   /**
+   * The Current User.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $currentUser;
+
+  /**
    * Class constructor.
    */
-  public function __construct(LinkGenerator $link_generator, IFrameUrlHelper $iframe_url_helper) {
+  public function __construct(LinkGenerator $link_generator, IFrameUrlHelper $iframe_url_helper, AccountInterface $current_user) {
     $this->linkGenerator = $link_generator;
     $this->iFrameUrlHelper = $iframe_url_helper;
+    $this->currentUser = $current_user;
   }
 
   /**
@@ -67,6 +78,7 @@ class StyleGuideController extends ControllerBase {
     return new self(
       $container->get('link_generator'),
       $container->get('media.oembed.iframe_url_helper'),
+      $container->get('current_user')
     );
   }
 
@@ -131,17 +143,20 @@ class StyleGuideController extends ControllerBase {
     $element = $this->getRelatedContentCarousel(TRUE);
     $build[] = $this->wrapElementNoContainer($element, 'Cards: Carousel (Related content, featured)');
 
-    $element = $this->getAccordion();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Accordion');
+    $element = $this->getPersonalCard();
+    $build[] = $this->wrapElementWideContainer($element, 'Card: Personal Card');
+
+    $element = $this->getPersonalCards();
+    $build[] = $this->wrapElementWideContainer($element, 'Card: Personal Cards');
 
     $element = $this->getCta();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Call to Action');
 
-    $element = $this->getDocuments();
-    $build[] = $this->wrapElementNoContainer($element, 'Element: Documents list');
-
     $element = $this->getHeroImage();
     $build[] = $this->wrapElementNoContainer($element, 'Element: Hero image');
+
+    $element = $this->getDocuments();
+    $build[] = $this->wrapElementNoContainer($element, 'Element: Documents list');
 
     $element = $this->getMediaImage();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Image (Embed in text field)');
@@ -151,9 +166,6 @@ class StyleGuideController extends ControllerBase {
 
     $element = $this->getMediaVideo();
     $build[] = $this->wrapElementWideContainer($element, 'Element: Media Video');
-
-    $element = $this->getQuickLinks();
-    $build[] = $this->wrapElementWideContainer($element, 'Element: Quick links');
 
     return $build;
   }
@@ -291,6 +303,133 @@ class StyleGuideController extends ControllerBase {
   }
 
   /**
+   * Get Personal card.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPersonalCard(): array {
+    $items = [];
+    $url = Url::fromRoute('<front>');
+    $elements = [];
+    $element = [
+      '#theme' => 'image',
+      '#uri' => $this->getPlaceholderPersonImage(120),
+      '#alt' => 'Person image',
+      '#width' => 120,
+    ];
+
+    // Image should be clickable.
+    $element = [
+      '#type' => 'html_tag',
+      '#tag' => 'a',
+      '#value' => render($element),
+      '#attributes' => ['href' => $url->toString()],
+    ];
+
+    $element = $this->wrapRoundedCornersFull($element);
+    $elements[] = $this->wrapContainerBottomPadding($element);
+
+    $inner_elements = [];
+
+    $element = $this->buildLink($this->currentUser->getDisplayName(), $url);
+    $element = $this->wrapTextFontWeight($element, 'bold');
+    $element = $this->wrapTextCenter($element);
+    $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
+
+    $element = ['#markup' => 'Paradigm Representative'];
+    $element = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $element = $this->wrapTextCenter($element);
+    $inner_elements[] = $this->wrapTextColor($element, 'gray');
+
+    $element = ['#markup' => 'Admin'];
+    $element = $this->wrapTextResponsiveFontSize($element, 'sm');
+    $element = $this->wrapTextCenter($element);
+    $inner_elements[] = $this->wrapContainerBottomPadding($element);
+
+    $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
+
+    $email = [
+      'link' => 'mailto:' . $this->currentUser->getEmail(),
+      'text' => 'Email',
+    ];
+
+    $tel = [
+      'link' => 'tel:898989898',
+      'text' => 'Call',
+    ];
+
+    $items[] = $this->buildCardWithPersonal($email, $tel, $elements);
+    return $this->buildCards($items);
+  }
+
+  /**
+   * Get Personal card.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPersonalCards(): array {
+    $items = [];
+    $url = Url::fromRoute('<front>');
+    $loop = range(0, 9);
+
+    foreach ($loop as $i) {
+      $elements = [];
+      $element = [
+        '#theme' => 'image',
+        '#uri' => $this->getPlaceholderPersonImage(120),
+        '#alt' => 'Person image',
+        '#width' => 120,
+      ];
+
+      // Image should be clickable.
+      $element = [
+        '#type' => 'html_tag',
+        '#tag' => 'a',
+        '#value' => render($element),
+        '#attributes' => ['href' => $url->toString()],
+      ];
+
+      $element = $this->wrapRoundedCornersFull($element);
+      $elements[] = $this->wrapContainerBottomPadding($element);
+
+      $inner_elements = [];
+
+      $element = $this->buildLink($this->currentUser->getDisplayName(), $url);
+      $element = $this->wrapTextFontWeight($element, 'bold');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapTextColor($element, 'light-gray');
+
+      $element = ['#markup' => 'Paradigm Representative'];
+      $element = $this->wrapTextResponsiveFontSize($element, 'sm');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapTextColor($element, 'gray');
+
+      $element = ['#markup' => 'Admin'];
+      $element = $this->wrapTextResponsiveFontSize($element, 'sm');
+      $element = $this->wrapTextCenter($element);
+      $inner_elements[] = $this->wrapContainerBottomPadding($element);
+
+      $elements[] = $this->wrapContainerVerticalSpacingTiny($inner_elements, 'center');
+
+      $email = [
+        'link' => 'mailto:' . $this->currentUser->getEmail(),
+        'text' => 'Email',
+      ];
+
+      $tel = [
+        'link' => 'tel:898989898',
+        'text' => 'Call',
+      ];
+
+      $items[] = $this->buildCardWithPersonal($email, $tel, $elements);
+    }
+
+    return $this->buildCards($items);
+  }
+
+  /**
    * Get Media image with credit and caption.
    *
    * @return array
@@ -336,35 +475,7 @@ class StyleGuideController extends ControllerBase {
       'This is the Credit of the video',
       'This is the Caption of the video',
     );
-  }
 
-  /**
-   * Get Quick links element.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getQuickLinks(): array {
-    $url = Url::fromRoute('<front>');
-    $items = [];
-    $i = 1;
-    while ($i <= 4) {
-      $subtitle = $i == 2 ? 'This is a quick link description' : NULL;
-
-      $items[] = $this->buildCardQuickLinkItem(
-        $this->getRandomTitle(),
-        $url,
-        $subtitle,
-      );
-
-      ++$i;
-    }
-
-    return $this->buildElementQuickLinks(
-      $this->t('Quick Links'),
-      $this->buildProcessedText('The Quick links description'),
-      $items,
-    );
   }
 
   /**
@@ -591,30 +702,6 @@ class StyleGuideController extends ControllerBase {
       $is_featured,
       $this->t('Related content'),
       $button,
-    );
-  }
-
-  /**
-   * Generate an Accordion element.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function getAccordion(): array {
-    $items = [];
-
-    for ($i = 0; $i < 7; $i++) {
-      // Add accordion items.
-      $items[] = $this->buildCardAccordionItem(
-        $this->getRandomTitle(),
-        $this->buildProcessedText('Content ' . $i . ' Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),
-      );
-    }
-
-    return $this->buildElementAccordion(
-      $this->getRandomTitle(),
-      $this->buildProcessedText('This is the main description of the FAQ section'),
-      $items,
     );
   }
 

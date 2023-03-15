@@ -1,0 +1,16 @@
+{% import '@server_theme/templates/server-theme-card-layout-base.html.twig' as base %}
+
+<div class="{{ base.getBaseClasses() }} pt-5 grid place-items-center">
+  {{ item }}
+
+  <div class="w-full h-full flex border-t">
+    <a href="{{ email.link }}" class="w-1/2 border border-t-0 border-l-0 p-4 text-center">
+      <img class="inline-block p-2" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABUUlEQVR4nO2UO0sDURCF10ejgp2FjWAvFhb+AEFQSJtCbKwWvZONmbmC5ZkQBUEsBBtby7QW+ge0SWNvE2MviDaiErl5bWCzcdcIWmRgYHfvnfMNZ4b1vGH8myAprhKjSqL1QdKIPjitCMAwzgYVpzBLEQCAUbLwjejzj4UZT07D87yRWKv8wsEsMS7SW4NyEBzO9JmBXpEgE74jk3Am9zmLlY7VoptGtNIL0OyE9TKfx5z7xnwyQQw1rG+RjlnfSfTU2uMpdzdnS/OGcd0+jwU0i/FKrPvZbHnMne3sYdEIbkOv9WbbYqE1u3ES3SXRl26NvoCulatQAUvtJTCiGy7dc6NrxrIR3PWqTQRoWfFpWM+DANOdRfAxaQRHJPiIq0sMoHAFa0aw1UjWx+/upwdIuhwC6qktSjI4Sv5PqkUAOVtc/xUIo2YYaxHAMP4svgCm6KqMIWgbrAAAAABJRU5ErkJggg==">
+      {{ email.text }}
+    </a>
+    <a href="{{ phn.link }}" class="w-1/2 p-4 text-center">
+      <img class="inline-block p-2" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABOklEQVR4nO2Vv0oDQRDGV7ASSyWVID6F+A76BBqsTm/WxMxYaPeNhHT6COIjGMVaaxFTWFj5BNoZCyP4h70/8fQOMedelw+m2mV+O7Pz7Roz1igi1ksr+pEGsQ7C1v6yT8AgC4gDB94AlvUxB2A99gYg0eufABK98QZwp80BWN+IMO0FQIL1ogoATHoBNBqdWSt4zVzwXbPZqRmfsoJu3BrcO6DxrU3GYgJ43tjGvKlClnGetKhbCSBsYcGK9hMf7FYC2WKsJlW8046uFe1x0xUEmCoNsaLtIUSwl11zA0CMXuQTRs95iFgPrWBlFMbEFyQy3Wko7bkoueA2/2453+ClXLsYT0mSvhvhouRpmPIXj7PfEv8LkCoULBHryXfHewSkCgQzIaNuWY9I9IoED/F/govhprHMH/QJyQ4R2UWj+4wAAAAASUVORK5CYII=">
+      {{ phn.text }}
+    </a>
+  </div>
+</div>
