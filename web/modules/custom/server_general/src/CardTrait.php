@@ -50,7 +50,7 @@ trait CardTrait {
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
     // Date.
-    $element = IntlDate::formatPattern($timestamp, 'short');
+    $element = ['#markup' => IntlDate::formatPattern($timestamp, 'short')];
     $element = $this->wrapTextColor($element, 'gray');
     $elements[] = $this->wrapTextResponsiveFontSize($element, 'sm');
 
@@ -60,7 +60,7 @@ trait CardTrait {
     $elements[] = $this->wrapTextFontWeight($element, 'bold');
 
     // Body teaser.
-    $elements[] = $summary;
+    $elements[] = $this->wrapTextLineClamp($summary, 4);
 
     return $this->buildCardLayoutWithImage($url, $image, $elements);
   }
@@ -172,57 +172,6 @@ trait CardTrait {
   }
 
   /**
-   * Build an accordion item.
-   *
-   * @param string $title
-   *   The title.
-   * @param array $description
-   *   The description render array.
-   *
-   * @return array
-   *   The render array.
-   */
-  protected function buildCardAccordionItem(string $title, array $description): array {
-
-    return [
-      '#theme' => 'server_theme_card__accordion_item',
-      '#title' => $title,
-      '#description' => $description,
-    ];
-  }
-
-  /**
-   * Builds a Quick Link element.
-   *
-   * @param string $title
-   *   The title.
-   * @param \Drupal\Core\Url $url
-   *   The Url object.
-   * @param string $subtitle
-   *   Optional; The subtitle.
-   *
-   * @return array
-   *   Render array.
-   */
-  protected function buildCardQuickLinkItem(string $title, Url $url, string $subtitle = NULL): array {
-    $items = [];
-    $items[] = $this->wrapTextResponsiveFontSize($title, 'xl');
-
-    if (!empty($subtitle)) {
-      $items[] = $this->wrapTextResponsiveFontSize($subtitle, 'sm');
-    }
-
-    $items = $this->wrapContainerVerticalSpacingTiny($items);
-
-    return [
-      '#theme' => 'server_theme_card__quick_link_item',
-      '#items' => $this->wrapContainerVerticalSpacing($items),
-      '#url' => $url,
-    ];
-
-  }
-
-  /**
    * Wrap multiple cards with a grid.
    *
    * @param array $items
@@ -235,6 +184,24 @@ trait CardTrait {
     return [
       '#theme' => 'server_theme_cards',
       '#items' => $items,
+    ];
+  }
+
+  /**
+   * Wrap multiple cards with a grid.
+   *
+   * @param array $items
+   *   The elements as render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function buildCardWithPersonal(array $email, array $phn, array $item): array {
+    return [
+      '#theme' => 'server_theme_card_with__personal',
+      '#item' => $item,
+      '#email' => $email,
+      '#phn' => $phn,
     ];
   }
 

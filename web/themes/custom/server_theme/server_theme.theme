@@ -212,6 +212,16 @@ function server_theme_theme() {
     ],
   ];
 
+  // Card with elements positioned in the center of it.
+  $info['server_theme_card_with__personal'] = [
+    'variables' => [
+      // A render array.
+      'item' => NULL,
+      'email' => NULL,
+      'phn' => NULL,
+    ],
+  ];
+
   // Card with a top image. Used often for content teasers/ cards.
   $info['server_theme_card_layout__with_image'] = [
     'variables' => [
@@ -313,14 +323,6 @@ function server_theme_theme() {
   // Wrap an element a div with `hidden` class.
   $info['server_theme_wrap_hidden'] = [
     'variables' => [
-      'element' => [],
-    ],
-  ];
-
-  // Wrap an image render array with the `figure` tag.
-  $info['server_theme_wrap_image_with_figure'] = [
-    'variables' => [
-      // The image render array.
       'element' => [],
     ],
   ];
@@ -427,28 +429,11 @@ function server_theme_theme() {
     ],
   ];
 
-  // The "Accordion" element.
-  $info['server_theme_element__accordion'] = [
+  // Wrap an image render array with the `figure` tag.
+  $info['server_theme_wrap_image_with_figure'] = [
     'variables' => [
-      // A render array built with `server_theme_element__accordion_item`.
-      'items' => [],
-    ],
-  ];
-
-  // A single "Accordion item" card inside the Accordion element.
-  $info['server_theme_card__accordion_item'] = [
-    'variables' => [
-      'title' => NULL,
-      'description' => NULL,
-    ],
-  ];
-
-  // A card that is linkable.
-  $info['server_theme_card__quick_link_item'] = [
-    'variables' => [
-      // The title and the optional description as a render array.
-      'items' => [],
-      'url' => NULL,
+      // The image render array.
+      'element' => [],
     ],
   ];
 
@@ -476,6 +461,13 @@ function server_theme_theme() {
 
   $info['server_theme_footer'] = [
     'variables' => [],
+  ];
+
+  $info['server_theme_subscribe'] = [
+    'variables' => [
+      'label' => NULL,
+      'name' => NULL,
+    ],
   ];
 
   return $info;
